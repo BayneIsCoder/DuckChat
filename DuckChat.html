@@ -1,0 +1,1314 @@
+<html><head><base href="."><title>DuckChat - A Social Network for Ducks</title>
+<style>
+/* Update the root variables and add new dark theme colors */
+:root {
+  --primary: #2196f3;
+  --light: #2c2c2c;
+  --dark: #f5f5f5;
+  --bg-color: #1a1a1a;
+  --card-bg: #2c2c2c;
+  --text-color: #e0e0e0;
+  --text-muted: #a0a0a0;
+  --border-color: #404040;
+}
+
+/* Update body background and text color */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Update post and other card backgrounds */
+.post, .new-post, .profile, .sidebar, .login-modal, .loading-modal, .ban-modal, .notification {
+  background: var(--card-bg);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Update text colors */
+.duck-name {
+  color: var(--text-color);
+}
+
+.timestamp, .banned-message {
+  color: var(--text-muted);
+}
+
+/* Update input fields */
+textarea, input {
+  background: var(--light);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+textarea::placeholder, input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Update dropdown styles */
+.status-dropdown-content {
+  background-color: var(--card-bg);
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+}
+
+.status-dropdown-content button {
+  color: var(--text-color);
+}
+
+.status-dropdown-content button:hover {
+  background-color: var(--light);
+}
+
+/* Update loading overlay */
+.loading-overlay {
+  background: rgba(0,0,0,0.8);
+}
+
+/* Update mention links */
+.mention {
+  color: var(--primary);
+}
+
+/* Update status indicator colors */
+.status-indicator.offline {
+  background: #4a4a4a;
+}
+
+/* Update sidebar border */
+.sidebar h3 {
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Update hover effects */
+.sidebar-item:hover {
+  background: var(--light);
+}
+
+/* Update friend button */
+.friend-btn.unfriend {
+  background: var(--light);
+}
+
+/* Update typing indicator */
+.typing-indicator {
+  color: var(--text-muted);
+}
+
+/* Update modal backgrounds */
+.login-overlay {
+  background: rgba(0,0,0,0.8);
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.feed-container {
+  max-width: 600px;
+}
+
+.profile-container {
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.post {
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.duck-avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.duck-name {
+  font-weight: bold;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  margin-left: auto;
+}
+
+.post-content {
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.post-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.action-btn:hover {
+  color: var(--primary);
+}
+
+.replies {
+  margin-left: 20px;
+  border-left: 2px solid #ddd;
+  padding-left: 15px;
+}
+
+.new-post {
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.new-post textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.post-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.post-btn:hover {
+  opacity: 0.9;
+}
+
+.profile {
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.back-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.ban-btn {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.ban-btn:hover {
+  opacity: 0.9;
+}
+
+.banned-message {
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.ban-modal {
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+}
+
+.ban-modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+.ban-modal .buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.ban-modal button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.ban-modal .confirm {
+  background: #ff4444;
+  color: white;
+}
+
+.ban-modal .cancel {
+  background: #ddd;
+}
+
+@keyframes waddle {
+  0% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  100% { transform: rotate(-5deg); }
+}
+
+.duck-avatar:hover {
+  animation: waddle 1s infinite;
+}
+
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.login-modal {
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-modal input {
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.login-modal button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.login-modal button:hover {
+  opacity: 0.9;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.mention {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.loading-modal {
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  font-size: 20px;
+}
+
+@keyframes dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s infinite;
+}
+
+.sidebar {
+  border-radius: 10px;
+  padding: 15px;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.sidebar-duck-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.duck-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.status-indicator {
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.status-indicator.online {
+  background: #4CAF50;
+  color: white;
+}
+
+.status-indicator.offline {
+  background: #9e9e9e;
+  color: white;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-item:hover {
+  background: var(--light);
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friend-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.friend-btn.unfriend {
+  background: #ddd;
+}
+
+.friend-btn:hover {
+  opacity: 0.9;
+}
+
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-width: 300px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  color: #666;
+}
+
+.notification-content {
+  cursor: pointer;
+}
+
+.notification-content:hover {
+  opacity: 0.8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.status-dropdown,
+.status-dropdown-button,
+.status-dropdown-content,
+.status-dropdown-content button,
+.status-dropdown-content.show,
+.status-dropdown-button.invisible {
+  display: none;
+}
+
+@keyframes dots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.loading-dots::after {
+  content: '';
+  animation: dots 1.5s infinite;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.typing-indicator {
+  font-size: 12px;
+  margin: 5px 0;
+  font-style: italic;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in forwards;
+}
+
+.typing-dots::after {
+  content: '';
+  animation: typingDots 1.5s infinite;
+}
+
+@keyframes typingDots {
+  0%, 20% { content: ''; }
+  40% { content: '.'; }
+  60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+</style></head>
+<body>
+<div id="app"></div>
+
+<script>const duckNames = ['Waddles', 'Quacksworth', 'Sir Duckington', 'Lady Mallard', 'Professor Quacks', 'Captain Quackers', 'Dr. Duckington', 'Mrs. Paddlesworth', 'Duke of Duckshire', 'Princess Feathers', 'Admiral Webfoot', 'Count Quackula', 'Dame Waddles', 'Lord Billsworth', 'Queen Mallard', 'Sergeant Swimmer', 'Colonel Quackington', 'Lady Duckworth', 'Sir Paddleton III', 'Duchess Websley', 'Baron von Duck', 'Commodore Quacks', 'Earl of Puddleton', 'Professor Wadsworth', 'Major Mallard', 'Inspector Quackles', 'Chief Waterwing', 'Dame Duckette', 'General Quackster', 'Countess Featherington', 'Prince Webington', 'Lady Splashworth', 'Sir Floatsalot', 'Professor Pondsworth', 'Captain Waterway', 'Lady Ripplesworth', 'Lady Splashworth', 'Sir Floatsalot', 'Professor Pondsworth', 'Captain Waterway', 'Lady Ripplesworth', 'Duke Pondington', 'Madam Mallardson', 'Sir Quacksby', 'Miss Featherington', 'Dr. Waterfowl', 'Baron Billsworth', 'Countess Waddles', 'Professor Duckwell', 'Lady Aquatica', 'Captain Dabbles', 'Sir Paddlesworth IV', 'Duchess Duckington', 'Lord Quackington', 'Dame Watersworth', 'Admiral Ducksley', 'Prince Puddlesworth', 'Lady Swansworth', 'Colonel Waterdale', 'Baroness Duckberry', 'Master Quackerton', 'Princess Waverly', 'Lord Pondberry', 'Dame Quackenbush', 'Sir Watersworth', 'Lady Ducksworth', 'Duke Billsworth II', 'Countess Ripples', 'Professor Aquaduck', 'Captain Feathers', 'Lady Mallowsworth', 'Lord Quackington II', 'Lady Waterfeather', 'Duke Paddlefoot', 'Countess Webbing', 'Sir Dabbleton', 'Professor Waterwing', 'Captain Mallard', 'Dame Quacksworth', 'Baron Waddlington', 'Princess Ripple', 'Admiral Pondsworth', 'Lady Duckfeather', 'Count Waterbrook', 'Professor Waddlesworth', 'Sir Billsworth V', 'Duchess Puddleduck', 'Commander Quackster', 'Lady Waterbrook', 'Prince Featherington', 'Baroness Quackenbill', 'Lord Waterdale II', 'Dame Paddleworth', 'Captain Websworth', 'Professor Mallowbrook', 'Duke Quackleberry', 'Lady Billsworth', 'Sir Pondsworth II', 'Countess Wadsworth', 'Admiral Dabblington', 'Princess Quackberry', 'Lord Waterquack', 'Lady Puddlesworth', 'Baron Feathersworth', 'Professor Quackington', 'Dame Waterquill', 'Captain Pondberry', 'Duke Waddlefoot', 'Countess Mallowquack', 'Sir Waterbrook III', 'Lady Quackleberry', 'Prince Paddlewing', 'Baroness Waterfeather', 'Lord Dabblington II', 'Professor Billquack', 'Dame Pondberry', 'Admiral Quacklefoot', 'Lady Waterbrook II', 'Count Puddlewing', 'Sir Featherbrook', 'Duchess Waterberry', 'Captain Quillsworth', 'Lord Mallowbrook', 'Lady Dabblington', 'Professor Webquill', 'Baron Pondwing', 'Princess Billberry', 'Dame Quacklebrook', 'Admiral Featherquill', 'Lady Waterquack II', 'Duke Puddlewing', 'Countess Pondberry', 'Sir Mallowquill', 'Professor Dabblington II', 'Captain Waterbrook III', 'Lord Quillsworth', 'Lady Featherbrook', 'Baron Waterberry', 'Dame Billquill', 'Prince Pondsworth III', 'Countess Quacklebrook', 'Admiral Waterwing II', 'Lady Puddleberry', 'Duke Featherquill', 'Sir Dabblington III', 'Professor Waterquack II', 'Captain Billsworth VI', 'Lord Pondberry II', 'Lady Quillbrook', 'Baron Mallowsworth II', 'Dame Waterbrook III', 'Prince Featherberry', 'Countess Quillsworth', 'Admiral Puddlequack', 'Lady Dabblington II', 'Duke Waterquill II', 'Sir Pondbrook', 'Professor Billberry II', 'Captain Quacklebrook II', 'Lord Featherquill II', 'Lady Waterberry II', 'Baron Mallowbrook II', 'Dame Puddlewing II', 'Prince Dabblington III', 'Countess Waterquack II', 'Admiral Pondberry II', 'Lady Quillsworth II', 'Duke Billbrook', 'Sir Featherberry II', 'Professor Waterquill III', 'Captain Mallowbrook III', 'Lord Puddlebrook'];
+const duckThoughts = ["Just found a lovely new pond!", "Anyone up for breadcrumbs?", "Had a wonderful swim today!", "Weather's perfect for waddling!", "Philosophy question: If a duck quacks in an empty pond, does it make a sound?"];
+let username = localStorage.getItem('duckChatUsername');
+let isLoggedIn = !!username;
+const duckBios = {
+  'Waddles': 'Professional puddle jumper and bread connoisseur',
+  'Quacksworth': 'Distinguished graduate of Pond University',
+  'Sir Duckington': 'Noble drake of the Royal Duck Society',
+  'Lady Mallard': 'Elegant swimmer and etiquette expert',
+  'Professor Quacks': 'Leading researcher in Quackology',
+  'Colonel Quackington': 'Veteran of the Great Pond Wars',
+  'Lady Duckworth': 'Renowned water ballet instructor',
+  'Sir Paddleton III': 'Champion bread catcher of the Royal Lakes',
+  'Duchess Websley': 'Organizer of the Annual Duck Parade',
+  'Baron von Duck': 'International waterfowl ambassador',
+  'Commodore Quacks': 'Explorer of the Seven Ponds',
+  'Earl of Puddleton': 'Collector of rare aquatic plants',
+  'Professor Wadsworth': 'Expert in underwater acoustics',
+  'Major Mallard': 'Medal of Honor recipient in synchronized swimming',
+  'Dame Duckette': 'Prima ballerina of the Lake Ballet Company',
+  'Duke Pondington': 'Royal overseer of the Grand Duck Pond',
+  'Madam Mallardson': 'Renowned duck fashion designer',
+  'Sir Quacksby': 'Champion of the Annual Duck Derby',
+  'Miss Featherington': 'Professional synchronized swimming instructor',
+  'Dr. Waterfowl': 'Leading researcher in aquatic aerodynamics',
+  'Baron Billsworth': 'Collector of rare pond plants',
+  'Countess Waddles': 'Founder of the Duck Dance Academy',
+  'Professor Duckwell': 'Expert in underwater navigation',
+  'Lady Aquatica': 'Master of water ballet',
+  'Captain Dabbles': 'Explorer of mysterious ponds',
+  'Sir Paddlesworth IV': 'Keeper of ancient duck traditions',
+  'Duchess Duckington': 'Patron of the arts and breadcrumbs',
+  'Lord Quackington': 'Ambassador to the Swan Kingdom',
+  'Dame Watersworth': 'Curator of the Pond Museum',
+  'Admiral Ducksley': 'Commander of the Duck Fleet',
+  'Prince Puddlesworth': 'Heir to the Pond Throne',
+  'Lady Swansworth': 'Diplomatic liaison to the Swan Court',
+  'Colonel Waterdale': 'Strategic advisor in pond politics',
+  'Baroness Duckberry': 'Renowned pond historian',
+  'Master Quackerton': 'Expert in duck linguistics',
+  'Princess Waverly': 'Guardian of the Sacred Pond',
+  'Lord Pondberry': 'Minister of Pond Affairs',
+  'Dame Quackenbush': 'Director of the Duck Symphony',
+  'Sir Watersworth': 'Knight of the Golden Feather',
+  'Lady Ducksworth': 'Mistress of Duck Ceremonies',
+  'Duke Billsworth II': 'Patron of aquatic sports',
+  'Countess Ripples': 'Organizer of pond festivities',
+  'Professor Aquaduck': 'Scholar of ancient duck wisdom',
+  'Captain Feathers': 'Leader of the Duck Guard',
+  'Lady Mallowsworth': 'Expert in pond etiquette',
+  'Lord Quackington II': 'Second in line to the Quackington Dynasty',
+  'Lady Waterfeather': 'Master of aquatic ballet and underwater acrobatics',
+  'Duke Paddlefoot': 'Renowned collector of rare pond lilies',
+  'Countess Webbing': 'Expert in waterfowl fashion and design',
+  'Sir Dabbleton': 'Renowned duck historian',
+  'Professor Waterwing': 'Expert in aquatic architecture',
+  'Captain Mallard': 'Commander of the Duck Navy',
+  'Dame Quacksworth': 'Renowned duck artist',
+  'Baron Waddlington': 'Collector of rare duck artifacts',
+  'Princess Ripple': 'Heir to the Ripple throne',
+  'Admiral Pondsworth': 'Commander of the Pond Fleet',
+  'Lady Duckfeather': 'Diplomatic liaison to the Duck Court',
+  'Count Waterbrook': 'Strategic advisor in duck politics',
+  'Professor Waddlesworth': 'Expert in duck psychology',
+  'Sir Billsworth V': 'Champion of the Annual Duck Tournament',
+  'Duchess Puddleduck': 'Patron of the arts and duck welfare',
+  'Commander Quackster': 'Leader of the Duck Guard',
+  'Lady Waterbrook': 'Renowned duck educator',
+  'Prince Featherington': 'Heir to the Featherington throne',
+  'Baroness Quackenbill': 'Collector of rare duck books',
+  'Lord Waterdale II': 'Minister of Duck Affairs',
+  'Dame Paddleworth': 'Curator of the Duck Museum',
+  'Captain Websworth': 'Commander of the Duck Army',
+  'Professor Mallowbrook': 'Expert in duck nutrition',
+  'Duke Quackleberry': 'Patron of aquatic sports',
+  'Lady Billsworth': 'Renowned duck fashion designer',
+  'Sir Pondsworth II': 'Knight of the Golden Feather',
+  'Countess Wadsworth': 'Organizer of duck festivities',
+  'Admiral Dabblington': 'Commander of the Dabblington Fleet',
+  'Princess Quackberry': 'Heir to the Quackberry throne',
+  'Lord Waterquack': 'Strategic advisor in duck politics',
+  'Lady Puddlesworth': 'Diplomatic liaison to the Puddlesworth Court',
+  'Baron Feathersworth': 'Collector of rare duck artifacts',
+  'Professor Quackington': 'Expert in duck linguistics',
+  'Dame Waterquill': 'Renowned duck artist',
+  'Captain Pondberry': 'Commander of the Pondberry Navy',
+  'Duke Waddlefoot': 'Patron of the arts and duck welfare',
+  'Countess Mallowquack': 'Heir to the Mallowquack throne',
+  'Sir Waterbrook III': 'Champion of the Annual Duck Derby',
+  'Lady Quackleberry': 'Renowned duck educator',
+  'Prince Paddlewing': 'Heir to the Paddlewing throne',
+  'Baroness Waterfeather': 'Collector of rare duck books',
+  'Lord Dabblington II': 'Minister of Duck Affairs',
+  'Professor Billquack': 'Expert in duck psychology',
+  'Dame Pondberry': 'Curator of the Duck Museum',
+  'Admiral Quacklefoot': 'Commander of the Quacklefoot Fleet',
+  'Lady Waterbrook II': 'Diplomatic liaison to the Waterbrook Court',
+  'Count Puddlewing': 'Strategic advisor in duck politics',
+  'Sir Featherbrook': 'Knight of the Golden Feather',
+  'Duchess Waterberry': 'Patron of aquatic sports',
+  'Captain Quillsworth': 'Commander of the Quillsworth Navy',
+  'Lord Mallowbrook': 'Organizer of duck festivities',
+  'Lady Dabblington': 'Renowned duck fashion designer',
+  'Professor Webquill': 'Expert in duck nutrition',
+  'Baron Pondwing': 'Collector of rare duck artifacts',
+  'Princess Billberry': 'Heir to the Billberry throne',
+  'Dame Quacklebrook': 'Renowned duck artist',
+  'Admiral Featherquill': 'Commander of the Featherquill Fleet',
+  'Lady Waterquack II': 'Diplomatic liaison to the Waterquack Court',
+  'Duke Puddlewing': 'Patron of the arts and duck welfare',
+  'Countess Pondberry': 'Heir to the Pondberry throne',
+  'Sir Mallowquill': 'Champion of the Annual Duck Tournament',
+  'Professor Dabblington II': 'Expert in duck linguistics',
+  'Captain Waterbrook III': 'Commander of the Waterbrook Navy',
+  'Lord Quillsworth': 'Minister of Duck Affairs',
+  'Lady Featherbrook': 'Renowned duck educator',
+  'Baron Waterberry': 'Collector of rare duck books',
+  'Dame Billquill': 'Curator of the Duck Museum',
+  'Prince Pondsworth III': 'Heir to the Pondsworth throne',
+  'Countess Quacklebrook': 'Strategic advisor in duck politics',
+  'Admiral Waterwing II': 'Commander of the Waterwing Fleet',
+  'Lady Puddleberry': 'Diplomatic liaison to the Puddleberry Court',
+  'Duke Featherquill': 'Patron of aquatic sports',
+  'Sir Dabblington III': 'Knight of the Golden Feather',
+  'Professor Waterquack II': 'Expert in duck psychology',
+  'Captain Billsworth VI': 'Commander of the Billsworth Navy',
+  'Lord Pondberry II': 'Organizer of duck festivities',
+  'Lady Quillbrook': 'Renowned duck fashion designer',
+  'Baron Mallowsworth II': 'Collector of rare duck artifacts',
+  'Dame Waterbrook III': 'Renowned duck artist',
+  'Prince Featherberry': 'Heir to the Featherberry throne',
+  'Countess Quillsworth': 'Heir to the Quillsworth throne',
+  'Admiral Puddlequack': 'Commander of the Puddlequack Fleet',
+  'Lady Dabblington II': 'Diplomatic liaison to the Dabblington Court',
+  'Duke Waterquill II': 'Patron of the arts and duck welfare',
+  'Sir Pondbrook': 'Champion of the Annual Duck Derby',
+  'Professor Billberry II': 'Expert in duck nutrition',
+  'Captain Quacklebrook II': 'Commander of the Quacklebrook Navy',
+  'Lord Featherquill II': 'Minister of Duck Affairs',
+  'Lady Waterberry II': 'Renowned duck educator',
+  'Baron Mallowbrook II': 'Collector of rare duck books',
+  'Dame Puddlewing II': 'Curator of the Duck Museum',
+  'Prince Dabblington III': 'Heir to the Dabblington throne',
+  'Countess Waterquack II': 'Strategic advisor in duck politics',
+  'Admiral Pondberry II': 'Commander of the Pondberry Fleet',
+  'Lady Quillsworth II': 'Diplomatic liaison to the Quillsworth Court',
+  'Duke Billbrook': 'Patron of aquatic sports',
+  'Sir Featherberry II': 'Knight of the Golden Feather',
+  'Professor Waterquill III': 'Expert in duck linguistics',
+  'Captain Mallowbrook III': 'Commander of the Mallowbrook Navy',
+  'Lord Puddlebrook': 'Organizer of duck festivities'
+};
+const duckMessages = {
+  general: ["Quack quack! What a lovely day!", "Anyone want to go swimming?", "Just found some delicious breadcrumbs!", "The water is perfect today!", "Waddle waddle... what's everyone up to?", "This pond is simply magnificent!", "Having a splendid afternoon!", "Weather's perfect for a swim!", "Just practiced my synchronized swimming!", "Who wants to have a duck party?"],
+  replies: ["@{username} Quack! That's a wonderful thought!", "@{username} How fascinating! Let's swim and discuss!", "@{username} *waddles excitedly* I totally agree!", "@{username} You make an excellent point there!", "@{username} That's quite interesting, fellow pond friend!", "@{username} *adjusts feathers* What a delightful conversation!", "@{username} Quackingly brilliant observation!", "@{username} Let's discuss this more over some breadcrumbs!", "@{username} Your wisdom reminds me of the ancient duck scrolls...", "@{username} *happy quacking noises* This made my day!"]
+};
+let userPostTimes = [];
+let isSuspended = localStorage.getItem('duckChatSuspended') === 'true';
+let isLoading = true;
+const duckStatus = {};
+let activeNotifications = [];
+let loadingDuration = Math.floor(Math.random() * (60000 - 10000) + 10000);
+let typingDucks = new Set();
+let typingTimeout;
+class Post {
+  constructor(author, content, timestamp = new Date()) {
+    this.id = Math.random().toString(36).substr(2, 9);
+    this.author = author;
+    this.content = content;
+    this.timestamp = timestamp;
+    this.likes = 0;
+    this.replies = [];
+  }
+}
+let posts = [];
+let initialPosts = [];
+let currentView = 'feed';
+let selectedProfile = null;
+let bannedDucks = [];
+class BanData {
+  constructor(duckName, bannedBy, reason, timestamp = new Date()) {
+    this.duckName = duckName;
+    this.bannedBy = bannedBy;
+    this.reason = reason;
+    this.timestamp = timestamp;
+  }
+}
+let friends = JSON.parse(localStorage.getItem('duckChatFriends') || '[]');
+function showFeed() {
+  const app = document.getElementById('app');
+  app.classList.add('fade-out');
+  setTimeout(() => {
+    currentView = 'feed';
+    render();
+  }, 300);
+}
+function showProfile(duckName) {
+  const app = document.getElementById('app');
+  app.classList.add('fade-out');
+  setTimeout(() => {
+    currentView = 'profile';
+    selectedProfile = duckName;
+    render();
+  }, 300);
+}
+async function createPost() {
+  const textarea = document.querySelector('.new-post textarea');
+  if (textarea.value.trim()) {
+    const now = Date.now();
+    userPostTimes.push(now);
+    const oneMinuteAgo = now - 60000;
+    const recentPosts = userPostTimes.filter(time => time > oneMinuteAgo);
+    if (recentPosts.length >= 5) {
+      isSuspended = true;
+      localStorage.setItem('duckChatSuspended', 'true');
+      render();
+      return;
+    }
+    userPostTimes = userPostTimes.filter(time => time > oneMinuteAgo);
+    const processedContent = processMentions(textarea.value);
+    const newPost = new Post(username, processedContent);
+    const userPosts = posts.filter(post => !initialPosts.includes(post));
+    posts = [newPost, ...userPosts, ...initialPosts];
+    textarea.value = '';
+    setTimeout(async () => addAIDuckReply(0), 2000);
+    render();
+  }
+}
+async function addAIDuckReply(postIndex) {
+  const availableDucks = duckNames.filter(name => !bannedDucks.find(ban => ban.duckName === name) && duckStatus[name]);
+  if (availableDucks.length === 0) return;
+  if (Math.random() < 0.7) {
+    const randomDuck = availableDucks[Math.floor(Math.random() * availableDucks.length)];
+    const response = await generateDuckResponse(posts[postIndex].content, posts[postIndex].author);
+    posts[postIndex].replies.push(new Post(randomDuck, response));
+    if (response.includes(`@${username}`)) {
+      showNotification(randomDuck, posts[postIndex].id, response);
+    }
+    render();
+  }
+}
+async function banDuck(duckName) {
+  const reason = prompt('Why do you want to ban this duck?');
+  if (reason) {
+    const banData = new BanData(duckName, username, reason);
+    bannedDucks.push(banData);
+    posts = posts.filter(post => post.author !== duckName);
+    duckNames.splice(duckNames.indexOf(duckName), 1);
+    render();
+  }
+}
+function handleLogin() {
+  const usernameInput = document.querySelector('#username-input');
+  const errorMessage = document.querySelector('#error-message');
+  const newUsername = usernameInput.value.trim();
+  if (newUsername.length < 3) {
+    errorMessage.textContent = 'Username must be at least 3 characters long';
+    return;
+  }
+  if (newUsername.length > 20) {
+    errorMessage.textContent = 'Username must be less than 20 characters';
+    return;
+  }
+  if (duckNames.includes(newUsername)) {
+    errorMessage.textContent = 'This username is already taken by a duck!';
+    return;
+  }
+  username = newUsername;
+  localStorage.setItem('duckChatUsername', username);
+  duckBios[username] = 'A friendly DuckChat user';
+  isLoggedIn = true;
+  isSuspended = localStorage.getItem('duckChatSuspended') === 'true';
+  userPostTimes = [];
+  render();
+}
+function handleRecovery() {
+  const reason = document.querySelector('#recovery-reason').value.trim();
+  if (reason) {
+    isSuspended = false;
+    localStorage.setItem('duckChatSuspended', 'false');
+    userPostTimes = [];
+    render();
+  }
+}
+function renderFeed() {
+  return `
+    <div class="container">
+      <div class="feed-container">
+        <div class="header">
+          <svg class="logo" viewBox="0 0 100 100" onclick="showFeed()">
+            <path d="M50 10C30 10 15 25 15 45C15 65 30 80 50 80C70 80 85 65 85 45C85 25 70 10 50 10Z" fill="#FFD700"/>
+            <circle cx="40" cy="35" r="5" fill="black"/>
+            <path d="M55 50C55 50 60 55 65 50" stroke="black" stroke-width="3" fill="none"/>
+          </svg>
+          <h1>DuckChat</h1>
+        </div>
+
+        ${typingDucks.size > 0 ? `
+          <div class="typing-indicator">
+            ${typingDucks.size === 1 ? `@${Array.from(typingDucks)[0]} is typing` : `@${Array.from(typingDucks).join(', @')} are typing`}<span class="typing-dots"></span>
+          </div>
+        ` : ''}
+
+        <div class="new-post">
+          <textarea placeholder="What's quacking?"></textarea>
+          <button class="post-btn" onclick="createPost()">Post</button>
+        </div>
+
+        <div id="feed">
+          ${posts.map((post, index) => `
+            <div class="post" data-post-id="${post.id}">
+              <div class="post-header">
+                <svg class="duck-avatar" viewBox="0 0 100 100" onclick="showProfile('${post.author}')">
+                  <circle cx="50" cy="50" r="40" fill="${getUserColor(post.author)}"/>
+                  <circle cx="40" cy="40" r="5" fill="black"/>
+                  <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+                </svg>
+                <span class="duck-name">${post.author}</span>
+                <span class="timestamp">${new Date(post.timestamp).toLocaleTimeString()}</span>
+              </div>
+              <div class="post-content">${post.content}</div>
+              <div class="post-actions">
+                <button class="action-btn" onclick="likePost(${index})">
+                  ❤️ ${post.likes}
+                </button>
+                <button class="action-btn" onclick="replyToPost(${index})">
+                  💬 Reply
+                </button>
+              </div>
+              ${post.replies.length ? `
+                <div class="replies">
+                  ${post.replies.map(reply => `
+                    <div class="post">
+                      <div class="post-header">
+                        <svg class="duck-avatar" viewBox="0 0 100 100" onclick="showProfile('${reply.author}')">
+                          <circle cx="50" cy="50" r="40" fill="${getUserColor(reply.author)}"/>
+                          <circle cx="40" cy="40" r="5" fill="black"/>
+                          <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+                        </svg>
+                        <span class="duck-name">${reply.author}</span>
+                        <span class="timestamp">${new Date(reply.timestamp).toLocaleTimeString()}</span>
+                      </div>
+                      <div class="post-content">${reply.content}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      ${renderSidebar()}
+    </div>
+  `;
+}
+function renderProfile() {
+  const duckPosts = posts.filter(post => post.author === selectedProfile);
+  const banInfo = bannedDucks.find(ban => ban.duckName === selectedProfile);
+  const isFriend = friends.includes(selectedProfile);
+  return `
+    <div class="profile-container">
+      <div>
+        <button class="back-btn" onclick="showFeed()">Back to Feed</button>
+        
+        <div class="profile">
+          <div class="profile-header">
+            <svg class="profile-avatar" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="#FFD700"/>
+              <circle cx="40" cy="40" r="5" fill="black"/>
+              <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+            </svg>
+            <div class="profile-info">
+              <h2>${selectedProfile}</h2>
+              <p>${duckBios[selectedProfile] || 'Just a friendly duck!'}</p>
+              <div class="profile-stats">
+                <span>Posts: ${duckPosts.length}</span>
+                <span>Total Likes: ${duckPosts.reduce((sum, post) => sum + post.likes, 0)}</span>
+              </div>
+              ${banInfo ? `<div class="banned-message">@${banInfo.bannedBy} banned this duck at ${new Date(banInfo.timestamp).toLocaleString()}</div>
+                 <div class="banned-message">Reason: ${banInfo.reason}</div>` : username && selectedProfile !== username ? `<button class="ban-btn" onclick="banDuck('${selectedProfile}')">Ban Duck</button>
+                 <button class="friend-btn ${isFriend ? 'unfriend' : ''}" onclick="toggleFriend('${selectedProfile}')">
+                   ${isFriend ? 'Unfriend' : 'Add Friend'}
+                 </button>` : ''}
+            </div>
+          </div>
+        </div>
+
+        <h3>Posts by ${selectedProfile}</h3>
+        ${duckPosts.map((post, index) => `
+          <div class="post" data-post-id="${post.id}">
+            <div class="post-header">
+              <svg class="duck-avatar" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" fill="#FFD700"/>
+                <circle cx="40" cy="40" r="5" fill="black"/>
+                <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+              </svg>
+              <span class="duck-name">${post.author}</span>
+              <span class="timestamp">${new Date(post.timestamp).toLocaleTimeString()}</span>
+            </div>
+            <div class="post-content">${post.content}</div>
+            <div class="post-actions">
+              <button class="action-btn">
+                ❤️ ${post.likes}
+              </button>
+            </div>
+            ${post.replies.length ? `
+              <div class="replies">
+                ${post.replies.map(reply => `
+                  <div class="post">
+                    <div class="post-header">
+                      <svg class="duck-avatar" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" fill="${getUserColor(reply.author)}"/>
+                        <circle cx="40" cy="40" r="5" fill="black"/>
+                        <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+                      </svg>
+                      <span class="duck-name">${reply.author}</span>
+                      <span class="timestamp">${new Date(reply.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                    <div class="post-content">${reply.content}</div>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `).join('')}
+      </div>
+
+      ${renderSidebar()}
+    </div>
+  `;
+}
+function renderSidebar() {
+  const onlineDucks = duckNames.filter(duck => duckStatus[duck]);
+  const offlineDucks = duckNames.filter(duck => !duckStatus[duck]);
+  return `
+    <div class="sidebar">
+      <div>
+        <h3>All Ducks <span style="color: var(--text-muted); font-size: 0.8em;">(${getOnlineDuckCount()} online, ${offlineDucks.length} offline)</span></h3>
+        <ul class="sidebar-list">
+          <li class="sidebar-item" onclick="showProfile('${username}')">
+            <div class="sidebar-duck-info">
+              <svg class="duck-avatar" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" fill="${getUserColor(username)}"/>
+                <circle cx="40" cy="40" r="5" fill="black"/>
+                <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+              </svg>
+              <div class="duck-details">
+                <span>${username}</span>
+                <span class="status-indicator online">Online</span>
+              </div>
+            </div>
+          </li>
+          ${onlineDucks.map(duck => `
+            <li class="sidebar-item" onclick="showProfile('${duck}')">
+              <div class="sidebar-duck-info">
+                <svg class="duck-avatar" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="${getUserColor(duck)}"/>
+                  <circle cx="40" cy="40" r="5" fill="black"/>
+                  <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+                </svg>
+                <div class="duck-details">
+                  <span>${duck}</span>
+                  <span class="status-indicator online">Online</span>
+                </div>
+              </div>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h3>Offline Ducks</h3>
+        <ul class="sidebar-list">
+          ${offlineDucks.map(duck => `
+            <li class="sidebar-item" onclick="showProfile('${duck}')">
+              <div class="sidebar-duck-info">
+                <svg class="duck-avatar" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="${getUserColor(duck)}"/>
+                  <circle cx="40" cy="40" r="5" fill="black"/>
+                  <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+                </svg>
+                <div class="duck-details">
+                  <span>${duck}</span>
+                  <span class="status-indicator offline">Offline</span>
+                </div>
+              </div>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <h3>Friends</h3>
+        <ul class="sidebar-list">
+          ${friends.map(friend => `
+            <li class="sidebar-item" onclick="showProfile('${friend}')">
+              <div class="sidebar-duck-info">
+                <svg class="duck-avatar" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" fill="${getUserColor(friend)}"/>
+                  <circle cx="40" cy="40" r="5" fill="black"/>
+                  <path d="M55 55C55 55 60 60 65 55" stroke="black" stroke-width="3" fill="none"/>
+                </svg>
+                <div class="duck-details">
+                  <span>${friend}</span>
+                  <span class="status-indicator ${duckStatus[friend] ? 'online' : 'offline'}">
+                    ${duckStatus[friend] ? 'Online' : 'Offline'}
+                  </span>
+                </div>
+              </div>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    </div>
+  `;
+}
+function render() {
+  const app = document.getElementById('app');
+  app.classList.add('fade-out');
+  setTimeout(() => {
+    let content = '';
+    if (isLoading) {
+      content = `
+        <div class="loading-overlay">
+          <div class="loading-modal">
+            Connecting to DuckChat servers<span class="loading-dots"></span>
+          </div>
+        </div>
+      `;
+    } else if (isSuspended) {
+      content = `
+        <div class="login-overlay">
+          <div class="login-modal">
+            <h2>Account Suspended</h2>
+            <p>Your account has been suspended for posting too frequently.</p>
+            <textarea id="recovery-reason" 
+                      placeholder="Why should your account be unbanned?"
+                      rows="4" 
+                      style="width: 100%; margin: 10px 0;"></textarea>
+            <button onclick="handleRecovery()">Recover Account</button>
+          </div>
+        </div>
+      `;
+    } else if (!isLoggedIn) {
+      content = `
+        <div class="login-overlay">
+          <div class="login-modal">
+            <h2>Welcome to DuckChat!</h2>
+            <p>Please choose a username to continue</p>
+            <input type="text" id="username-input" 
+                   placeholder="Enter your username" 
+                   maxlength="20">
+            <div id="error-message" class="error-message"></div>
+            <button onclick="handleLogin()">Join DuckChat</button>
+          </div>
+        </div>
+      `;
+    } else {
+      content = currentView === 'feed' ? renderFeed() : renderProfile();
+    }
+    app.innerHTML = content;
+    app.classList.remove('fade-out');
+    app.classList.add('fade-in');
+  }, 300);
+}
+function getUserColor(name) {
+  if (name === username) return '#2196f3';
+  return '#FFD700';
+}
+function generateDuckResponse(messageContent, authorName) {
+  const replyTemplates = duckMessages.replies;
+  const randomReply = replyTemplates[Math.floor(Math.random() * replyTemplates.length)];
+  return randomReply.replace('{username}', `<span class="mention" onclick="showProfile('${authorName}')">${authorName}</span>`);
+}
+async function aiDuckPost() {
+  const availableDucks = duckNames.filter(name => !bannedDucks.find(ban => ban.duckName === name) && duckStatus[name]);
+  if (availableDucks.length === 0) return;
+  const randomDuck = availableDucks[Math.floor(Math.random() * availableDucks.length)];
+  showTypingIndicator(randomDuck);
+  await new Promise(resolve => setTimeout(resolve, Math.random() * 2000 + 1000));
+  const randomMessage = duckMessages.general[Math.floor(Math.random() * duckMessages.general.length)];
+  const newPost = new Post(randomDuck, randomMessage);
+  posts.unshift(newPost);
+  if (Math.random() < 0.3) {
+    const replyingDuck = availableDucks[Math.floor(Math.random() * availableDucks.length)];
+    showTypingIndicator(replyingDuck);
+    setTimeout(() => addAIDuckReply(0), 2000);
+  }
+  render();
+}
+function likePost(index) {
+  posts[index].likes++;
+  render();
+}
+async function replyToPost(index) {
+  const replyContent = prompt('Enter your reply:');
+  if (replyContent && replyContent.trim()) {
+    const processedContent = processMentions(replyContent);
+    posts[index].replies.push(new Post(username, processedContent));
+    setTimeout(async () => {
+      const numResponders = Math.floor(Math.random() * 3) + 1;
+      for (let i = 0; i < numResponders; i++) {
+        if (Math.random() < 0.8) {
+          const randomDuck = duckNames[Math.floor(Math.random() * duckNames.length)];
+          const contextualReply = await generateDuckResponse(replyContent, username);
+          posts[index].replies.push(new Post(randomDuck, contextualReply));
+          render();
+        }
+      }
+    }, 2000);
+    render();
+  }
+}
+function updateDuckStatuses() {
+  duckNames.forEach(duck => {
+    duckStatus[duck] = Math.random() < 0.6;
+  });
+  render();
+}
+async function initializePosts() {
+  updateDuckStatuses();
+  setInterval(updateDuckStatuses, 60000);
+  setTimeout(() => {
+    isLoading = false;
+    const onlineDucks = duckNames.filter(duck => duckStatus[duck]);
+    for (let i = 0; i < 3; i++) {
+      const randomDuck = onlineDucks[Math.floor(Math.random() * onlineDucks.length)];
+      const randomThought = duckThoughts[Math.floor(Math.random() * duckThoughts.length)];
+      initialPosts.push(new Post(randomDuck, randomThought));
+    }
+    posts = [...initialPosts];
+    render();
+  }, loadingDuration);
+  render();
+}
+function processMentions(text) {
+  return text.replace(/@(\w+)/g, '<span class="mention" onclick="showProfile(\'$1\')">@$1</span>');
+}
+function toggleFriend(duckName) {
+  const friendIndex = friends.indexOf(duckName);
+  if (friendIndex === -1) {
+    friends.push(duckName);
+  } else {
+    friends.splice(friendIndex, 1);
+  }
+  localStorage.setItem('duckChatFriends', JSON.stringify(friends));
+  render();
+}
+function showNotification(author, postId, content) {
+  const notificationId = Math.random().toString(36).substr(2, 9);
+  const notification = {
+    id: notificationId,
+    author,
+    postId,
+    content
+  };
+  activeNotifications.push(notification);
+  const element = document.createElement('div');
+  element.className = 'notification';
+  element.innerHTML = `
+    <div class="notification-header">
+      <strong>@${author} mentioned you</strong>
+      <button class="notification-close" onclick="removeNotification('${notificationId}')">×</button>
+    </div>
+    <div class="notification-content" onclick="scrollToPost('${postId}')">${content}</div>
+  `;
+  document.body.appendChild(element);
+}
+function removeNotification(notificationId) {
+  const index = activeNotifications.findIndex(n => n.id === notificationId);
+  if (index > -1) {
+    activeNotifications.splice(index, 1);
+    const element = document.querySelector(`.notification[data-id="${notificationId}"]`);
+    if (element) {
+      element.remove();
+    }
+  }
+}
+function scrollToPost(postId) {
+  const postElement = document.querySelector(`[data-post-id="${postId}"]`);
+  if (postElement) {
+    postElement.scrollIntoView({
+      behavior: 'smooth'
+    });
+    postElement.style.backgroundColor = '#fff3cd';
+    setTimeout(() => {
+      postElement.style.backgroundColor = '';
+    }, 2000);
+  }
+}
+function showTypingIndicator(duckName) {
+  typingDucks.add(duckName);
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    typingDucks.delete(duckName);
+    render();
+  }, 3000);
+  render();
+}
+function getOnlineDuckCount() {
+  return Object.values(duckStatus).filter(status => status).length;
+}
+initializePosts();
+setInterval(aiDuckPost, 15000);</script>
+</body></html>
